@@ -212,6 +212,8 @@ dialog.ref .hbar h2{font-family:var(--serif);font-size:19px;margin:0;flex:1;font
 dialog.ref .hbody{padding:12px 18px 20px}
 @media (max-width:900px){ .main{grid-template-columns:1fr} #pad{height:330px} .review{grid-template-columns:1fr} .toc{position:static;display:flex;flex-wrap:wrap} }
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.backlink{font-size:14px;color:var(--muted);text-decoration:none}
+.backlink:hover{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -219,11 +221,7 @@ dialog.ref .hbody{padding:12px 18px 20px}
   <header class="top">
     <h1>Nomenclature Review <small>General Chemistry</small></h1>
     <span class="spacer"></span>
-    <div class="ctl"><b>Module</b>
-      <div class="seg" role="group" aria-label="Module" id="moduleSeg">
-        <button type="button" data-v="inorganic" aria-pressed="true">Inorganic</button><button type="button" data-v="organic" aria-pressed="false">Organic</button>
-      </div>
-    </div>
+    <a class="backlink" href="../organic/" id="orgLink">Organic nomenclature →</a>
   </header>
   <nav class="tabs" aria-label="Sections">
     <a href="#review" data-view="review">Review</a>
@@ -4612,7 +4610,7 @@ $('sLoad').onclick = () => {
 
 // ---------------------------------------------------------------- module + routing
 const VIEWS = ['review', 'practice', 'quiz', 'progress', 'instructor'];
-let module_ = store.get('module', 'inorganic'), view = 'practice';
+let module_ = 'inorganic', view = 'practice';
 function route() {
   const h = (location.hash || '').slice(1);
   if (VIEWS.includes(h)) view = h;
@@ -4628,7 +4626,7 @@ function route() {
   if (h.startsWith('rv-')) { const t = document.getElementById(h); if (t) t.scrollIntoView(); }
 }
 window.addEventListener('hashchange', route);
-segInit($('moduleSeg'), module_, v => { module_ = v; store.set('module', v); route(); });
+if (!onGitHub) $('orgLink').hidden = true;
 
 // ---------------------------------------------------------------- start
 updateHowto();
